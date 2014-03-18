@@ -15,7 +15,7 @@
 
   <groupId>com.cloudbees.jenkins.plugins</groupId>
   <artifactId>cloudbees-registration</artifactId>
-  <version>3.14-SNAPSHOT</version>
+  <version>3.14</version>
   <packaging>hpi</packaging>
 
   <name>CloudBees Registration Plugin</name>
