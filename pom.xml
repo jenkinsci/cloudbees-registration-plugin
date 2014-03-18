@@ -8,24 +8,26 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.cloudbees.jenkins.plugins</groupId>
-    <artifactId>jenkins-plugins</artifactId>
-    <version>21</version>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>1.509</version>
   </parent>
 
+  <groupId>com.cloudbees.jenkins.plugins</groupId>
   <artifactId>cloudbees-registration</artifactId>
   <version>3.14-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <name>CloudBees Registration Plugin</name>
-  <url>http://wiki.cloudbees.com/bin/view/Jenkins+Enterprise/CloudBees+Free+and+Open+Source+Jenkins+Plugins</url>
+  <url>https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Registration+Plugin</url>
   <description>
     This plugin provides the ability for users and administrators to provide the credentials required to access CloudBees' services.
   </description>
 
   <scm>
-    <connection>scm:git:git@git.cloudbees.com:cloudbees/cloudbees-registration-plugin.git</connection>
-    <developerConnection>scm:git:git@git.cloudbees.com:cloudbees/cloudbees-registration-plugin.git</developerConnection>
+    <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
+    <url>http://github.com/jenkinsci/${project.artifactId}-plugin</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -55,7 +57,7 @@
     <dependency>
       <groupId>com.cloudbees.jenkins.plugins</groupId>
       <artifactId>cloudbees-credentials</artifactId>
-      <version>3.2</version>
+      <version>3.3</version>
     </dependency>
     <!-- jenkins dependencies -->
     <!-- test dependencies -->
