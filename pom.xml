@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2011 CloudBees, Inc.
+  ~ This is proprietary code. All rights reserved.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.cloudbees.jenkins.plugins</groupId>
+    <artifactId>jenkins-plugins</artifactId>
+    <version>21</version>
+  </parent>
+
+  <artifactId>cloudbees-registration</artifactId>
+  <version>3.14-SNAPSHOT</version>
+  <packaging>hpi</packaging>
+
+  <name>CloudBees Registration Plugin</name>
+  <url>http://wiki.cloudbees.com/bin/view/Jenkins+Enterprise/CloudBees+Free+and+Open+Source+Jenkins+Plugins</url>
+  <description>
+    This plugin provides the ability for users and administrators to provide the credentials required to access CloudBees' services.
+  </description>
+
+  <scm>
+    <connection>scm:git:git@git.cloudbees.com:cloudbees/cloudbees-registration-plugin.git</connection>
+    <developerConnection>scm:git:git@git.cloudbees.com:cloudbees/cloudbees-registration-plugin.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <properties>
+    <maven.findbugs.failure.strict>true</maven.findbugs.failure.strict>
+    <com.cloudbees.Domain>cloudbees.com</com.cloudbees.Domain>
+  </properties>
+
+  <dependencies>
+    <!-- regular dependencies -->
+    <dependency>
+      <groupId>com.cloudbees</groupId>
+      <artifactId>endpoints</artifactId>
+      <version>0.5</version>
+    </dependency>
+    <!-- plugin dependencies -->
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>credentials</artifactId>
+      <version>1.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>async-http-client</artifactId>
+      <version>1.7.8</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cloudbees.jenkins.plugins</groupId>
+      <artifactId>cloudbees-credentials</artifactId>
+      <version>3.2</version>
+    </dependency>
+    <!-- jenkins dependencies -->
+    <!-- test dependencies -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>1.8.5</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <com.cloudbees.Domain>${com.cloudbees.Domain}</com.cloudbees.Domain>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jenkins-ci.tools</groupId>
+        <artifactId>maven-hpi-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries combine.children="append">
+              <Support-Dynamic-Loading>false</Support-Dynamic-Loading>
+            </manifestEntries>
+          </archive>
+          <systemProperties>
+            <systemProperty>
+              <name>com.cloudbees.Domain</name>
+              <value>${com.cloudbees.Domain}</value>
+            </systemProperty>
+          </systemProperties>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.4.0</version>
+        <configuration>
+          <excludeFilterFile>src/findbugs/excludesFilter.xml</excludeFilterFile>
+          <failOnError>${maven.findbugs.failure.strict}</failOnError>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>staging</id>
+      <properties>
+        <com.cloudbees.Domain>beescloud.com</com.cloudbees.Domain>
+      </properties>
+    </profile>
+  </profiles>
+
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+</project>

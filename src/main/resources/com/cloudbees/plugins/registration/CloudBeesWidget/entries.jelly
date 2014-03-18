@@ -1,0 +1,65 @@
+<?jelly escape-by-default='true'?>
+<!--
+  ~ The MIT License
+  ~
+  ~ Copyright 2014 CloudBees.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<j:jelly xmlns:j="jelly:core"  xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+  <j:if test="${!it.registered}">
+    <tr>
+      <td class="pane redbold" colspan="2" style="background-color: #ffe;">
+        <j:if test="${h.hasPermission(app.ADMINISTER)}">
+          ${%NotRegistered}
+        </j:if>
+        <j:if test="${!h.hasPermission(app.ADMINISTER)}">
+          ${%PesterAdmin}
+        </j:if>
+      </td>
+    </tr>
+  </j:if>
+  <j:forEach var="account" items="${it.accounts}">
+    <tr class="build-row no-wrap">
+      <td class="pane" colspan="2">
+        <b>${account}</b>
+      </td>
+    </tr>
+    <j:set var="status" value="${it.getAccountStatus(account)}"/>
+    <j:if test="${status==null}">
+      <tr>
+        <td class="pane" colspan="2">${%Updating}</td>
+      </tr>
+    </j:if>
+    <j:if test="${status.isEmpty()}">
+      <tr>
+        <td class="pane">
+          <img src="${resURL}/plugin/cloudbees-registration/images/16x16/status-not-subscribed.png"
+               width="16px" height="16px" alt=""/>
+          ${%SubscriptionStatus}
+        </td>
+        <td>${%SubscriptionStatusNone}</td>
+      </tr>
+    </j:if>
+    <j:forEach var="stat" items="${status}">
+      <st:include page="entry.jelly" it="${stat}"/>
+    </j:forEach>
+  </j:forEach>
+</j:jelly>
