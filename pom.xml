@@ -60,7 +60,7 @@ THE SOFTWARE.
     <dependency>
       <groupId>com.cloudbees</groupId>
       <artifactId>endpoints</artifactId>
-      <version>0.5</version>
+      <version>0.8</version>
     </dependency>
     <!-- plugin dependencies -->
     <dependency>
