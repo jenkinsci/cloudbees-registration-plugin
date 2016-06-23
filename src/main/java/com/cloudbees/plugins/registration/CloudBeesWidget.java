@@ -289,8 +289,6 @@ public class CloudBeesWidget extends Widget {
                         }
                         LOGGER.log(FINE, "Starting Health check for {0}", accountName);
                         try {
-                            final String prefix = accountName + '/';
-
                             List<DataPoint> result = new ArrayList<DataPoint>();
                             AsyncHttpClientConfig.Builder httpClientConfig =
                                     new AsyncHttpClientConfig.Builder()
@@ -300,7 +298,6 @@ public class CloudBeesWidget extends Widget {
                             try {
                                 String uid = user.getUID();
                                 String apiKey = user.getAPIKey();
-                                String apiSecret = user.getAPISecret().getPlainText();
                                 ListenableFuture<List<StatusLine>> futureHealthResponse = null;
                                 if (uid != null) {
                                     LOGGER.log(Level.FINER, "Getting remaining minutes for {0}", accountName);
