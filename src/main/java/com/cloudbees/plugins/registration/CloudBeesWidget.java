@@ -30,8 +30,6 @@ import com.cloudbees.plugins.credentials.cloudbees.CloudBeesAccount;
 import com.cloudbees.plugins.credentials.cloudbees.CloudBeesUser;
 import com.cloudbees.plugins.credentials.cloudbees.CloudBeesUserWithAccountApiKey;
 import com.cloudbees.plugins.registration.grandcentral.ApiAccountHealthStatusHandler;
-import com.cloudbees.plugins.registration.run.CloudBeesClient;
-import com.cloudbees.plugins.registration.run.CloudBeesClientFactory;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.MapMaker;
 import com.ning.http.client.AsyncHttpClient;
@@ -335,37 +333,6 @@ public class CloudBeesWidget extends Widget {
                                         } catch (IOException e) {
                                             LOGGER.log(FINE, e.getMessage(), e);
                                         }
-                                    }
-                                }
-                                if (apiKey != null && apiSecret != null) {
-                                    CloudBeesClient client = new CloudBeesClientFactory()
-                                            .withProxyServer(AHCUtils.getProxyServer())
-                                            .withAuthentication(apiKey, apiSecret)
-                                            .build(gcClient);
-                                    try {
-                                        LOGGER.log(Level.FINER, "Getting app statuses for {0}", accountName);
-                                        Map<String, AtomicLong> summary = new TreeMap<String, AtomicLong>();
-                                        for (Map.Entry<String, String> appStatus : client
-                                                .getApplicationsStatuses(accountName)
-                                                .get(Math.max(1, expire - System.currentTimeMillis()),
-                                                        TimeUnit.MILLISECONDS).entrySet()) {
-                                            if (appStatus.getKey().startsWith(prefix)) {
-                                                String status = appStatus.getValue();
-                                                AtomicLong count = summary.get(status);
-                                                if (count == null) {
-                                                    summary.put(status, count = new AtomicLong());
-                                                }
-                                                count.incrementAndGet();
-                                            }
-                                        }
-                                        LOGGER.log(Level.FINER, "Got app statuses for {0}", accountName);
-                                        for (Map.Entry<String, AtomicLong> part : summary.entrySet()) {
-                                            String key = StringUtils.lowerCase(part.getKey());
-                                            result.add(new StatusLine("status-" + key + ".png", "app." + key,
-                                                    part.getValue().longValue()));
-                                        }
-                                    } finally {
-                                        client.close();
                                     }
                                 }
                                 if (futureHealthResponse != null) {
