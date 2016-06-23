@@ -29,7 +29,7 @@ THE SOFTWARE.
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.509</version>
+    <version>2.11</version>
   </parent>
 
   <groupId>com.cloudbees.jenkins.plugins</groupId>
@@ -51,6 +51,7 @@ THE SOFTWARE.
   </scm>
 
   <properties>
+    <jenkins.version>1.580</jenkins.version>
     <maven.findbugs.failure.strict>true</maven.findbugs.failure.strict>
     <com.cloudbees.Domain>cloudbees.com</com.cloudbees.Domain>
   </properties>
