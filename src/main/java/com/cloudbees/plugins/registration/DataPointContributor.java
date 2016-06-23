@@ -65,7 +65,7 @@ public abstract class DataPointContributor implements ExtensionPoint {
     public abstract void collectSync(CloudBeesUser user, String accountName, List<DataPoint> result);
 
     public static ExtensionList<DataPointContributor> all() {
-        return Jenkins.getInstance().getExtensionList(DataPointContributor.class);
+        return Jenkins.getActiveInstance().getExtensionList(DataPointContributor.class);
     }
 
 }

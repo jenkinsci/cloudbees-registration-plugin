@@ -32,6 +32,7 @@ import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.model.PageDecorator;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.HttpResponse;
 import org.kohsuke.stapler.HttpResponses;
@@ -66,7 +67,7 @@ public class Reminder extends PageDecorator {
     }
 
     public boolean isNagDue() {
-        if (!(Hudson.getInstance().servletContext.getAttribute("app") instanceof Hudson)) {
+        if (!(Jenkins.getActiveInstance().servletContext.getAttribute("app") instanceof Hudson)) {
             return false;   // no point in nagging the user during licensing screens
         }
         if (isRegistered()) {
@@ -95,7 +96,7 @@ public class Reminder extends PageDecorator {
         if (System.currentTimeMillis() > nextCheck) {
             try {
                 lastEnabledState =
-                        Hudson.getInstance().getPluginManager().getPlugin("cloudbees-registration").isEnabled();
+                        Jenkins.getActiveInstance().getPluginManager().getPlugin("cloudbees-registration").isEnabled();
                 nextCheck = System.currentTimeMillis() + 5000;
             } catch (NullPointerException e) {
                 return false;
@@ -119,9 +120,9 @@ public class Reminder extends PageDecorator {
         if (yes != null) {
             return HttpResponses.redirectViaContextPath(SystemCredentialsProvider.getInstance().getUrlName());
         } else if (no != null) {
-            Hudson.getInstance().getPluginManager().getPlugin("cloudbees-registration").disable();
+            Jenkins.getActiveInstance().getPluginManager().getPlugin("cloudbees-registration").disable();
             return HttpResponses
-                    .redirectViaContextPath(Hudson.getInstance().getPluginManager().getSearchUrl() + "/installed");
+                    .redirectViaContextPath(Jenkins.getActiveInstance().getPluginManager().getSearchUrl() + "/installed");
         } else if (later != null) {
             HttpSession session = Stapler.getCurrentRequest().getSession(true);
             session.setAttribute(Reminder.class.getName() + ".nextNagTime",

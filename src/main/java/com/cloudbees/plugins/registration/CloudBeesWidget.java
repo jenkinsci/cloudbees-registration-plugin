@@ -115,7 +115,7 @@ public class CloudBeesWidget extends Widget {
     }
 
     public String getWidgetUrl() {
-        List<Widget> list = Hudson.getInstance().getWidgets();
+        List<Widget> list = Jenkins.getActiveInstance().getWidgets();
         Iterator<Widget> iterator = list.iterator();
         for (int i = 0; i < list.size() && iterator.hasNext(); i++) {
             Widget widget = iterator.next();
